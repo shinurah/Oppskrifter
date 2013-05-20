@@ -1,50 +1,42 @@
 #include <iostream>
-#include <fstream>
-#include <string>
+#include "meny.h"
 
 using namespace std;
-int meny();
-int valg;
 
-int meny()
+Meny::Meny()
 {
-	valg = 0;
+	Meny::valg = 0;
     
-	cout << "Meny "  << endl;
-	cout << "1. Ny oppskrift" << endl;
-	cout << "2. Kj" << (char)155 << "p billetter" << endl;
-	cout << "3. Vis ledige seter" << endl;
-	cout << "4. Vis billettinntekter for denne forestillingen" << endl;
-	cout << "0. Avslutt" << endl;
-    
-	cout << "Ditt valg: ";
-	cin >> valg;
+	Meny::MenyValg();
+	cin >> Meny::valg;
 
-	while (valg != 0)
+	while (Meny::valg != 0)
 	{
-		switch (valg)
+		switch (Meny::valg)
 		{
             case 1:
-                cout << "Du valgte '1. Ny forestilling'" << endl;
+                cout << "Du valgte '1. Ny Oppskrift'" << endl;
                 
                 break;
             case 2:
-                cout << "Du valgte '2. Kj" << (char)155 << "p billetter'" << endl;
+                cout << "Du valgte '2. Kj" << (char)155 << "r mordi'" << endl;
                 
                 break;
             case 3:
-                cout << "Du valgte '3. Vis ledige seter'" << endl;
+                cout << "Du valgte '3. Noob'" << endl;
                 
                 break;
             case 4:
-                cout << "Du valgte '4. Vis billettinntekter for denne forestillingen'" << endl;
+                cout << "Du valgte '4. Kj" << (char)155 << "rte mammaer'" << endl;
                 
                 break;
             default:
                 cout << "Feil brukerinput! Velg p" <<  (char)134 << " nytt." << endl;
                 break;
 		}
+		
+		Meny::valg = 0;
+		Meny::MenyValg();
+		cin >> Meny::valg;	
 	}
-    
-	return 0;
 }
