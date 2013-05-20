@@ -2,6 +2,7 @@
 using namespace std;
 
 class Meny {
+
 public: 
 	Meny();
 	void MenyValg()
