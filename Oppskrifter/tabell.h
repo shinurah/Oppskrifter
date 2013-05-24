@@ -4,27 +4,20 @@ using namespace std;
 class Tabell {
 
 public: 
-	Tabell();
-	string getNavn();
-	double getId();
-	double getFett();
-	double getKarbo();
-	double getProtein();
-	double getKalori();
-	double getDvita();
-	double getCvita();
-	double getBvita();
-	double getAvita();
+	Tabell(string id, string navn, string vann, string kilojoule, string fett, string kolesterol, string karbohydrat, string kostfiber, string protein, string vitaA, string vitaD, string vitaE, string vitaC);
 	
 private:
-	double id;
-	string navn;
-	double fett;
-	double karbo;
-	double protein;
-	double kalori;
-	double dvitamin;
-	double cvitamin;
-	double bvitamin;
-	double avitamin;
+	static string id;
+	static string navn;
+	static string vann;
+	static string fett;
+	static string kilojoule;
+	static string kolesterol;
+	static string karbohydrat;
+	static string kostfiber;
+	static string protein;
+	static string vitaA;
+	static string vitaD;
+	static string vitaE;
+	static string vitaC;
 };
