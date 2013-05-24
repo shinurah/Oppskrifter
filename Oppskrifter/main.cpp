@@ -2,90 +2,67 @@
 
 using namespace std;
 
-static string Hodelinje1, Hodelinje2;
+string Hodelinje1, Hodelinje2;
 const string mvTabell = "matvaretabellen.csv";
-static string id;
-static string navn;
-static string vann;
-static string kilojoule;
-static string fett;
-static string kolesterol;
-static string karbohydrat;
-static string kostfiber;
-static string protein;
-static string vitaminA;
-static string vitaminD;
-static string vitaminE;
-static string vitaminC;
+string id;
+string navn;
+string vann;
+string kilojoule;
+string fett;
+string kolesterol;
+string karbohydrat;
+string kostfiber;
+string protein;
+string vitaminA;
+string vitaminD;
+string vitaminE;
+string vitaminC;
 
 void main()
 {
-	//vector <Tabell> matvaretabell;
+	vector <mv> matvaretabell;
 
-	//ifstream innfil;	//deklarerer fil-variabelen/objektet
+	mv mv;
+	ifstream innfil;	//deklarerer fil-variabelen/objektet
 
 	////Leser ut fra matvaretabellen
-	//innfil.open(mvTabell.c_str(), ios::in);
-	//if (innfil.fail()) {
-	//	cout << "Det oppsto en feil ved " << (char)134 << "pning av fila, kontroller at fila \"matvaretabellen.csv\" eksisterer!" << endl;
-	//} 
-	//else 
-	//{
+	innfil.open(mvTabell.c_str(), ios::in);
+	if (innfil.fail()) {
+		cout << "Det oppsto en feil ved " << (char)134 << "pning av fila, kontroller at fila \"matvaretabellen.csv\" eksisterer!" << endl;
+	} 
+	else 
+	{
 
+	
 	//	//innfil >> antall_redusertPris >> antall_fullPris >> antall_billett;
-	//	getline ( innfil, Hodelinje1, '\n' );
-	//	getline ( innfil, Hodelinje2, '\n' );
-	//	while (!innfil.eof()) 
-	//	{
-	//		
-	//		getline ( innfil, id, ';');
-	//		
-	//		getline ( innfil, navn, ';');
-	//		
-	//		getline ( innfil, vann, ';');
-	//		
-	//		getline ( innfil, kilojoule, ';');
-	//		
-	//		getline ( innfil, fett, ';');
-	//		
-	//		getline ( innfil, kolesterol, ';');
-	//		
-	//		getline ( innfil, karbohydrat, ';');
-	//		
-	//		getline ( innfil, kostfiber, ';');
-	//		
-	//		getline ( innfil, protein, ';');
-	//		
-	//		getline ( innfil, vitaminA, ';');
-	//		
-	//		getline ( innfil, vitaminD, ';');
-	//		
-	//		getline ( innfil, vitaminE, ';');
-	//		
-	//		getline ( innfil, vitaminC, ';');
+		getline ( innfil, Hodelinje1, '\n' );
+		getline ( innfil, Hodelinje2, '\n' );
+		
+		while (!innfil.eof()) 
+		{
+			
+			getline ( innfil, mv.id, ';');
+			getline ( innfil, mv.navn, ';');
+			getline ( innfil, mv.vann, ';');
+			getline ( innfil, mv.kilojoule, ';');
+			getline ( innfil, mv.fett, ';');
+			getline ( innfil, mv.kolesterol, ';');
+			getline ( innfil, mv.karbohydrat, ';');
+			getline ( innfil, mv.kostfiber, ';');
+			getline ( innfil, mv.protein, ';');
+			getline ( innfil, mv.vitaA, ';');
+			getline ( innfil, mv.vitaD, ';');
+			getline ( innfil, mv.vitaE, ';');
+			getline ( innfil, mv.vitaC);
 
-	//		// Opprett et nytt Tabellinput og legg i vektor
-	//		Tabell nyTabell(
-	//			(string)id, 
-	//			(string)navn, 
-	//			(string)vann, 
-	//			(string)kilojoule,
-	//			(string)fett,
-	//			(string)kolesterol,
-	//			(string)karbohydrat,
-	//			(string)kostfiber,
-	//			(string)protein,
-	//			(string)vitaminA,
-	//			(string)vitaminD,
-	//			(string)vitaminE,
-	//			(string)vitaminC);
+			matvaretabell.push_back(mv);
+		}
+	}
+	innfil.close();
 
-	//		matvaretabell.push_back(nyTabell);
-	//	}
-	//}
-	//innfil.close();
-
-	//cout << "Antall: " << matvaretabell.size() << endl;
+	cout << "Antall: " << matvaretabell.size() << endl;
+	cout << matvaretabell[0].id << " " << matvaretabell[0].navn << " " << matvaretabell[0].vann << " " << matvaretabell[0].kilojoule << " " << matvaretabell[0].fett << " " << matvaretabell[0].kolesterol << " " << matvaretabell[0].karbohydrat << " " << matvaretabell[0].kostfiber << " " << matvaretabell[0].protein << " " << matvaretabell[0].vitaA << " " << matvaretabell[0].vitaD << " " << matvaretabell[0].vitaE << " " << matvaretabell[0].vitaC << endl;
+	cout << matvaretabell[1].id << " " << matvaretabell[1].navn << endl;
 
 	Meny();
 }
