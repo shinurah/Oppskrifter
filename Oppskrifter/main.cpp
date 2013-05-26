@@ -1,14 +1,37 @@
 #include "main.h"
 
+// i Hearby name you std the first of your kind!
 using namespace std;
 
+
+// variabler..... doooooh!
 string Hodelinje1, Hodelinje2;
 const string mvTabell = "matvaretabellen.csv";
+vector <mv> matvaretabell;
 
+void lagOppskrift()
+{
+	bool MakeOppskrift = true;
+
+	while(MakeOppskrift)
+	{
+		string tempVareID = "";
+		string tempGram = "";
+		string totalGram = "";
+		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke? ( svar med matvareID )" << endl;
+		cin >> tempVareID;
+		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( svar i gram )" << endl;
+		cin >> tempGram;
+		for(int i=0; i < matvaretabell.size(); i++)
+		{
+			
+		}
+	}
+}
 
 void main()
 {
-	vector <mv> matvaretabell;
+	
 
 	mv mv;
 	ifstream innfil;	//deklarerer fil-variabelen/objektet
@@ -20,8 +43,6 @@ void main()
 	} 
 	else 
 	{
-
-	
 		// hopper over de 2 øverste linjene i filen.
 		getline ( innfil, Hodelinje1, '\n' );
 		getline ( innfil, Hodelinje2, '\n' );
