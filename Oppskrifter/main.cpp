@@ -10,8 +10,6 @@
 **/
 
 
-
-
 #include "main.h"		// inkludering av header til main
 using namespace std;	// setter namespace til std
 
@@ -24,6 +22,7 @@ string Hodelinje1, Hodelinje2;						// variabler for å ta topheadere i CSV fil.
 const string mvTabell = "matvaretabellen.csv";		// inndata fra CSV fil
 const string book = "kokebok.book";					// kokebok for oppskrifter
 vector <mv> matvaretabell;							// vektor av matvarer fra CSV fil
+vector <oppskrift> oppskrifter;						// vektor av oppskrifter 
 int valg;											// valg for meny
 ifstream innfil;									// deklarerer fil-variabelen/objektet
 string temp;										// input string for konvertering fra String CSV
@@ -36,9 +35,8 @@ void MenyValg()
 		cout << endl;
 		cout << "Meny "  << endl;
 		cout << "1. Ny oppskrift" << endl;
-		cout << "2. Kj" << (char)155 << "r mordi" << endl;
-		cout << "3. noob" << endl;
-		cout << "4. Vis kj" << (char)155 << "rte mammaer" << endl;
+		cout << "2. S" << (char)155 << "k etter oppskrift" << endl;
+		cout << "3. Vis Oppskrift" << endl;
 		cout << "0. Avslutt" << endl;
     
 		cout << "Ditt valg: ";		
@@ -102,17 +100,17 @@ void lagOppskrift()
 				ingre_temp_mengde.push_back(convert.str());
 
 				// oppdaterer totalverdier
-				totalProtein = ((double)totalProtein + (double)matvaretabell[i].protein);
-				totalFett = ((double)totalFett + (double)matvaretabell[i].fett);
-				totalVitaA = ((double)totalVitaA + (double)matvaretabell[i].vitaA);
-				totalVitaC = ((double)totalVitaC + (double)matvaretabell[i].vitaC);
-				totalVitaD = ((double)totalVitaD + (double)matvaretabell[i].vitaD);
-				totalVitaE = ((double)totalVitaE + (double)matvaretabell[i].vitaE);
-				totalVann = ((double)totalVann + (double)matvaretabell[i].vann);
-				totalkilojoule = ((double)totalkilojoule + (double)matvaretabell[i].kilojoule);
-				totalkolesterol = ((double)totalkolesterol + (double)matvaretabell[i].kilojoule);
-				totalkarbohydrat = ((double)totalkarbohydrat + (double)matvaretabell[i].karbohydrat);
-				totalkostfiber = ((double)totalkostfiber + (double)matvaretabell[i].kostfiber);
+				totalProtein = ((double)totalProtein + ((double)matvaretabell[i].protein * tempGram));
+				totalFett = ((double)totalFett + ((double)matvaretabell[i].fett * tempGram));
+				totalVitaA = ((double)totalVitaA + ((double)matvaretabell[i].vitaA * tempGram));
+				totalVitaC = ((double)totalVitaC + ((double)matvaretabell[i].vitaC * tempGram));
+				totalVitaD = ((double)totalVitaD + ((double)matvaretabell[i].vitaD * tempGram));
+				totalVitaE = ((double)totalVitaE + ((double)matvaretabell[i].vitaE * tempGram));
+				totalVann = ((double)totalVann + ((double)matvaretabell[i].vann * tempGram));
+				totalkilojoule = ((double)totalkilojoule + ((double)matvaretabell[i].kilojoule * tempGram));
+				totalkolesterol = ((double)totalkolesterol + ((double)matvaretabell[i].kilojoule * tempGram));
+				totalkarbohydrat = ((double)totalkarbohydrat + ((double)matvaretabell[i].karbohydrat * tempGram));
+				totalkostfiber = ((double)totalkostfiber + ((double)matvaretabell[i].kostfiber * tempGram));
 			}
 		}
 
@@ -128,8 +126,6 @@ void lagOppskrift()
 		cout << "Total Vitamin D i oppskrift: " << totalVitaD << endl;
 		cout << "Total Vitamin E i oppskrift: " << totalVitaE << endl;
 		cout << "Total Vitamin C i oppskrift: " << totalVitaC << endl;
-		cout << ingre_temp_navn.size() << endl;
-		cout << ingre_temp_mengde.size() << endl;
 
 		// spør bruker om det er ønskelig med flere matvarer i oppskriften
 		cout << (char)157 << "nsker du " << (char)134 << " legge til flere ingredienser? (y/n)" << endl;
@@ -170,7 +166,23 @@ void lagOppskrift()
 			utfil.close();
 
 			// funsjon for oppdatering av innleste oppskrifter med programstart
+			oppskrift oppskrift;
 
+			oppskrift.id = oppskrift_antall;
+			oppskrift.navn = oppskriftNavn;
+			oppskrift.TotalProtein = totalProtein;
+			oppskrift.TotalFett = totalFett;
+			oppskrift.TotalVitaA = totalVitaA;
+			oppskrift.TotalVitaC = totalVitaC;
+			oppskrift.TotalVitaD = totalVitaD;
+			oppskrift.TotalVitaE = totalVitaE;
+			oppskrift.TotalKilojoule = totalkilojoule;
+			oppskrift.TotalKolesterol = totalkolesterol;
+			oppskrift.TotalKarbohydrat = totalkarbohydrat;
+			oppskrift.TotalKostfiber = totalkostfiber;
+
+			oppskrifter.push_back(oppskrift);
+		
 		}
 	}
 }
@@ -220,7 +232,7 @@ void meny()
 
 }
 
-void main()
+void open()
 {
 	mv mv;	// matvare objekt
 
@@ -307,6 +319,13 @@ void main()
 		}
 	}
 	innfil.close(); // lokker filen
+
+
+}
+
+void main()
+{
+	open();
 
 	// kjører meny system
 	meny();
