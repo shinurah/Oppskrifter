@@ -140,8 +140,16 @@ void lagOppskrift()
 		{
 			MakeOppskrift = false;
 	
+			// teller antall oppskrifter i kokeboken
+			ifstream inFile(book.c_str()); 
+			int oppskrift_antall = count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
+
 			// lagrer oppskriften i mappen oppskrifter
-			string lagringsfil = "oppskrifter\\" + oppskriftNavn + ".oppskrift";
+			oppskrift_antall++;
+			stringstream convert;
+			convert << oppskrift_antall;
+				
+			string lagringsfil = "oppskrifter\\" + convert.str() + ".oppskrift";
 			ofstream utfil;	
 			utfil.open(lagringsfil.c_str(), ios::out);
 			utfil << oppskriftNavn << endl;
@@ -156,14 +164,12 @@ void lagOppskrift()
 			utfil.close();
 			cout << "Oppskriften \"" << oppskriftNavn << "\" er lagret." << endl; 
 
-			// teller antall oppskrifter i kokeboken
-			ifstream inFile(book.c_str()); 
-			int oppskrift_antall = count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
-
 			// legge inn i kokeboken
 			utfil.open(book.c_str(), ios::app);
-			utfil << oppskrift_antall+1 << ";" << oppskriftNavn << ";" << endl;
+			utfil << oppskrift_antall << ";" << oppskriftNavn << ";" << endl;
 			utfil.close();
+
+			// funsjon for oppdatering av innleste oppskrifter med programstart
 
 		}
 	}
