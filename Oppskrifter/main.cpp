@@ -99,7 +99,6 @@ void lagOppskrift()
 				convert << tempGram;
 				ingre_temp_mengde.push_back(convert.str());
 
-
 				totalProtein = ((double)totalProtein + (double)matvaretabell[i].protein);
 				totalFett = ((double)totalFett + (double)matvaretabell[i].fett);
 				totalVitaA = ((double)totalVitaA + (double)matvaretabell[i].vitaA);
@@ -152,9 +151,8 @@ void lagOppskrift()
 				utfil << ingre_temp_navn[i] << "\t" << ingre_temp_mengde[i] << endl;
 			}
 			utfil.close();
+			cout << "Oppskriften \"" << oppskriftNavn << "\" er lagret." << endl; 
 		}
-
-
 	}
 }
 
