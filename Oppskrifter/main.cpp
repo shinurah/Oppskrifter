@@ -1,3 +1,15 @@
+/** 
+* Tittel: Karaktergivende Oppgave i C++
+* Beskrivelse: 
+			Du har fått i oppdrag fra kjøkkensjef S. Jeffsen på Toppen Høgfjellshotell å lage et program 
+			som hjelper han å holde orden på ernæringsinformasjon knyttet til måltider som han 
+			komponerer
+* forfatter: Mikael Bendiksen & Lisa Marie Sørensen 
+**/
+
+
+
+
 #include "main.h"
 
 using namespace std;
@@ -82,13 +94,17 @@ void lagOppskrift()
 	}
 }
 
-// meny
+// meny 
+
+// NB NB NB NB NB
+// bør oppdateres med sikkert input..
+
 void meny() 
 {
-	valg = 0;
+	valg = 0;    // setter valg til 0
     
-	MenyValg();
-	cin >> valg;
+	MenyValg();  // printer meny valg
+	cin >> valg; // spør bruker etter valg
 
 	while (valg != 0)
 	{
@@ -125,12 +141,12 @@ void meny()
 
 void main()
 {
-	
-	mv mv;				// matvare objekt
+	mv mv;	// matvare objekt
 
 	////Leser ut fra matvaretabellen
 	innfil.open(mvTabell.c_str(), ios::in);
-	if (innfil.fail()) {
+	if (innfil.fail()) 
+	{
 		cout << "Det oppsto en feil ved " << (char)134 << "pning av fila, kontroller at fila \"matvaretabellen.csv\" eksisterer!" << endl;
 	} 
 	else 
