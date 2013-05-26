@@ -76,10 +76,12 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="mv.h" />
+    <ClInclude Include="oppskrift.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mv.cpp" />
+    <ClCompile Include="oppskrift.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="matvaretabellen.csv" />

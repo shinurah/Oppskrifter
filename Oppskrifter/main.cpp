@@ -33,15 +33,16 @@ double temp2;										// output double etter konvertering fra string CSV
 void MenyValg()
 {
 		cout << endl;
+
 		cout << "Meny "  << endl;
-		cout << "1. Ny oppskrift" << endl;
-		cout << "2. S" << (char)155 << "k etter oppskrift" << endl;
-		cout << "3. Vis Oppskrift" << endl;
-		cout << "0. Avslutt" << endl;
-    
+		cout << "-------------------------------------------" << endl;
+		cout << "1. \tNy oppskrift" << endl;
+		cout << "2. \tS" << (char)155 << "k etter oppskrift" << endl;
+		cout << "3. \tVis Oppskrift" << endl;
+		cout << "0. \tAvslutt" << endl;
+		cout << "-------------------------------------------" << endl;
 		cout << "Ditt valg: ";		
 };
-
 
 // lag oppskrift
 void lagOppskrift()
@@ -137,8 +138,8 @@ void lagOppskrift()
 			MakeOppskrift = false;
 	
 			// teller antall oppskrifter i kokeboken
-			ifstream inFile(book.c_str()); 
-			int oppskrift_antall = count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
+			//ifstream inFile(book.c_str()); 
+			int oppskrift_antall = oppskrifter.size();//count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
 
 			// lagrer oppskriften i mappen oppskrifter
 			oppskrift_antall++;
@@ -162,10 +163,12 @@ void lagOppskrift()
 
 			// legge inn i kokeboken
 			utfil.open(book.c_str(), ios::app);
-			utfil << oppskrift_antall << ";" << oppskriftNavn << ";" << endl;
+			utfil << "\n" << oppskrift_antall << ";" << oppskriftNavn << ";" << totalProtein << ";" << totalFett << ";" 
+				<< totalVitaA << ";" << totalVitaC << ";" << totalVitaD << ";" << totalVitaE << ";" << totalkilojoule 
+				<< ";" << totalkolesterol << ";" << totalkarbohydrat << ";" << totalkostfiber;
 			utfil.close();
 
-			// funsjon for oppdatering av innleste oppskrifter med programstart
+			// legger til oppskrift i vector
 			oppskrift oppskrift;
 
 			oppskrift.id = oppskrift_antall;
@@ -186,6 +189,54 @@ void lagOppskrift()
 		}
 	}
 }
+
+void visOppskrift()
+{
+	cout << endl;
+	cout << "Oppskrifter fra kokebok" << endl;
+	cout << "Antall: " << oppskrifter.size() << endl;
+	cout << "-------------------------------------------" << endl;
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		cout << oppskrifter[i].id << "\t - " << oppskrifter[i].navn << endl;
+	}
+	cout << "-------------------------------------------" << endl;
+	if(oppskrifter.size() == 0)
+	{
+		cout << "Du har ingen oppskrifter i din kokebok" << endl;
+	}
+	else
+	{
+		cout << "Hvilken oppskrift vil du se?" << endl;
+		int valgtOppskrift = 0;
+		cin >> valgtOppskrift;
+
+
+		stringstream convert;
+		convert << valgtOppskrift;			
+		string filNavn = "oppskrifter\\" + convert.str() + ".oppskrift";
+		innfil.open(filNavn.c_str(), ios::in);
+		if (innfil.fail())
+		{
+			cout << "Det oppsto en feil ved " << (char)134 << "pning av fila " << filNavn << endl;
+			cout << "eller filen finnes ikke." << endl;
+		}
+		else 
+		{
+			cout << "Leser filen " << filNavn << endl;
+			string innehold = "\n";
+			while (!innfil.eof()) 
+			{	
+				getline ( innfil, temp, '\n');
+				innehold = innehold + temp + "\n";
+			}
+			innfil.close();
+			cout << innehold;
+		}
+	}
+
+}
+
 
 // meny 
 
@@ -209,17 +260,14 @@ void meny()
                 
                 break;
             case 2:
-                cout << "Du valgte '2. Kj" << (char)155 << "r mordi'" << endl;
+                cout << "Du valgte '2. S" << (char)155 << "k etter oppskrift'" << endl;
                 
                 break;
             case 3:
-                cout << "Du valgte '3. Noob'" << endl;
-                
+                cout << "Du valgte '3. Vis Oppskrift'" << endl;
+                visOppskrift();
                 break;
-            case 4:
-                cout << "Du valgte '4. Kj" << (char)155 << "rte mammaer'" << endl;
-                
-                break;
+           
             default:
                 cout << "Feil brukerinput! Velg p" <<  (char)134 << " nytt." << endl;
                 break;
@@ -234,7 +282,73 @@ void meny()
 
 void open()
 {
-	mv mv;	// matvare objekt
+	mv mv;					// matvare objekt
+	oppskrift oppskrift;	// oppskrift objekt
+
+	innfil.open(book.c_str(), ios::in);
+	if (innfil.fail())
+	{
+		cout << "Det oppsto en feil ved " << (char)134 << "pning av fila, kontroller at fila \"kokebok.book\" eksisterer!" << endl;
+	}
+	else 
+	{
+		while (!innfil.eof()) 
+		{			
+			// henter ut oppskrift id og konverterer til double
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.id = temp2;
+
+			getline ( innfil, oppskrift.navn, ';');
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalProtein = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalFett = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalVitaA = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalVitaC = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalVitaD = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalVitaE = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalKilojoule = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalKolesterol = temp2;
+
+			getline ( innfil, temp, ';');
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalKarbohydrat = temp2;
+
+			getline ( innfil, temp);
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalKostfiber = temp2;
+			
+			oppskrifter.push_back(oppskrift);
+			
+		}
+		innfil.close();
+		cout << "Henter data fra Kokebok.book" << endl;
+	}
+
+
 
 	////Leser ut fra matvaretabellen
 	innfil.open(mvTabell.c_str(), ios::in);
@@ -322,6 +436,8 @@ void open()
 
 
 }
+
+
 
 void main()
 {
