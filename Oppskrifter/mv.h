@@ -4,18 +4,18 @@ using namespace std;
 class mv {
 
 public: 
-	string id;
+	double id;
 	string navn;
-	string vann;
-	string fett;
-	string kilojoule;
-	string kolesterol;
-	string karbohydrat;
-	string kostfiber;
-	string protein;
-	string vitaA;
-	string vitaD;
-	string vitaE;
-	string vitaC;
+	double vann;
+	double fett;
+	double kilojoule;
+	double kolesterol;
+	double karbohydrat;
+	double kostfiber;
+	double protein;
+	double vitaA;
+	double vitaD;
+	double vitaE;
+	double vitaC;
 	
 };

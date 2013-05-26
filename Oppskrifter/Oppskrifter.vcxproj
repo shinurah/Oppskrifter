@@ -75,15 +75,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="meny.h" />
     <ClInclude Include="mv.h" />
-    <ClInclude Include="tabell.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="meny.cpp" />
     <ClCompile Include="mv.cpp" />
-    <ClCompile Include="Tabell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="matvaretabellen.csv" />
