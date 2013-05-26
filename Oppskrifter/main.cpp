@@ -1,18 +1,20 @@
 /** 
 * Tittel: Karaktergivende Oppgave i C++
+
 * Beskrivelse: 
 			Du har fått i oppdrag fra kjøkkensjef S. Jeffsen på Toppen Høgfjellshotell å lage et program 
 			som hjelper han å holde orden på ernæringsinformasjon knyttet til måltider som han 
 			komponerer
+
 * forfatter: Mikael Bendiksen & Lisa Marie Sørensen 
 **/
 
 
 
 
-#include "main.h"
+#include "main.h"		// inkludering av header til main
 
-using namespace std;
+using namespace std;	// setter namespace til std
 
 
 // ---------------------------------------
@@ -26,6 +28,7 @@ int valg;											// valg for meny
 ifstream innfil;									// deklarerer fil-variabelen/objektet
 string temp;										// input string for konvertering fra String CSV
 double temp2;										// output double etter konvertering fra string CSV
+
 
 // Meny print
 void MenyValg()
@@ -45,25 +48,40 @@ void MenyValg()
 // lag oppskrift
 void lagOppskrift()
 {
-	bool MakeOppskrift = true;	// Setter oppskrift whileloop aktiv
-	string oppskriftNavn = "";	// string for oppskrift navn
-	double tempVareID = 0;		// temp for matvareID
-	double tempGram = 0;		// temp for gram
-	double totalGram = 0;		// total gram i oppskrift
-	double totalProtein = 0;	// total protein i oppskrift
-	double totalFett = 0;		// total fett i oppskift
-	string flere_ing;			// String for å sjekke om brukeren ønsker flere ingredisenser i oppskiften
+	bool MakeOppskrift = true;		// Setter oppskrift whileloop aktiv
+	string oppskriftNavn = "";		// string for oppskrift navn
+	double tempVareID = 0;			// temp for matvareID
+	double tempGram = 0;			// temp for gram
+	double totalGram = 0;			// total gram i oppskrift
+	double totalProtein = 0;		// total protein i oppskrift
+	double totalFett = 0;			// total fett i oppskift
+	double totalVitaA = 0;
+	double totalVitaC = 0;
+	double totalVitaD = 0;
+	double totalVitaE = 0;
+	double totalVann = 0;
+	double totalkilojoule = 0;
+	double totalkolesterol = 0;
+	double totalkarbohydrat = 0;
+	double totalkostfiber = 0;
+
+	string flere_ing;	// String for å sjekke om brukeren ønsker flere ingredisenser i oppskiften
 
 	// spør brukeren om navnet på oppskriften
 	cout << "Hva heter oppskriften" << endl;
-	cin >> oppskriftNavn;
+	string input = "";
+	getline(cin, input);
+
+	// en fix for å få mellomrommet mellom i navnet
+	oppskriftNavn = input;
+	getline(cin, oppskriftNavn);
 
 	// while loop for ingredienser
 	while(MakeOppskrift)
 	{
 
 		// brukerinput
-		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke? ( svar med matvareID )" << endl;
+		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
 		cin >> tempVareID;
 		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( svar i gram )" << endl;
 		cin >> tempGram;
@@ -75,12 +93,30 @@ void lagOppskrift()
 			{
 				totalProtein = ((double)totalProtein + (double)matvaretabell[i].protein);
 				totalFett = ((double)totalFett + (double)matvaretabell[i].fett);
+				totalVitaA = ((double)totalVitaA + (double)matvaretabell[i].vitaA);
+				totalVitaC = ((double)totalVitaC + (double)matvaretabell[i].vitaC);
+				totalVitaD = ((double)totalVitaD + (double)matvaretabell[i].vitaD);
+				totalVitaE = ((double)totalVitaE + (double)matvaretabell[i].vitaE);
+				totalVann = ((double)totalVann + (double)matvaretabell[i].vann);
+				totalkilojoule = ((double)totalkilojoule + (double)matvaretabell[i].kilojoule);
+				totalkolesterol = ((double)totalkolesterol + (double)matvaretabell[i].kilojoule);
+				totalkarbohydrat = ((double)totalkarbohydrat + (double)matvaretabell[i].karbohydrat);
+				totalkostfiber = ((double)totalkostfiber + (double)matvaretabell[i].kostfiber);
 			}
 		}
 
 		// printer ut informasjon sålangt i oppskriften.
-		cout << "Total Protein i oppskrift: " << totalProtein << endl;
+		cout << "Total Vann i oppskrift: " << totalVann << endl;
 		cout << "Total Fett i oppskrift: " << totalFett << endl;
+		cout << "Total Kilojoule i oppskrift: " << totalkilojoule << endl;
+		cout << "Total Kolesterol i oppskrift: " << totalkolesterol << endl;
+		cout << "Total Karbohydrat i oppskrift: " << totalkarbohydrat << endl;
+		cout << "Total Kostfiber i oppskrift: " << totalkostfiber << endl;
+		cout << "Total Protein i oppskrift: " << totalProtein << endl;
+		cout << "Total Vitamin A i oppskrift: " << totalVitaA << endl;
+		cout << "Total Vitamin D i oppskrift: " << totalVitaD << endl;
+		cout << "Total Vitamin E i oppskrift: " << totalVitaE << endl;
+		cout << "Total Vitamin C i oppskrift: " << totalVitaC << endl;
 		
 		// spør bruker om det er ønskelig med flere matvarer i oppskriften
 		cout << (char)157 << "nsker du " << (char)134 << " legge til flere ingredienser? (y/n)" << endl;
