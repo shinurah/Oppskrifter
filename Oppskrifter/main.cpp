@@ -13,7 +13,6 @@
 
 
 #include "main.h"		// inkludering av header til main
-
 using namespace std;	// setter namespace til std
 
 
@@ -23,6 +22,7 @@ using namespace std;	// setter namespace til std
 
 string Hodelinje1, Hodelinje2;						// variabler for å ta topheadere i CSV fil.
 const string mvTabell = "matvaretabellen.csv";		// inndata fra CSV fil
+const string book = "kokebok.book";					// kokebok for oppskrifter
 vector <mv> matvaretabell;							// vektor av matvarer fra CSV fil
 int valg;											// valg for meny
 ifstream innfil;									// deklarerer fil-variabelen/objektet
@@ -93,12 +93,15 @@ void lagOppskrift()
 		{
 			if(matvaretabell[i].id == tempVareID)
 			{
+				// setter navnet til matvaren inn i ett temp vector som holder navn
 				ingre_temp_navn.push_back(matvaretabell[i].navn);
-								
+				
+				// converterer input og setter mengde til matvaren inn i ett temp vector som holder mengden
 				stringstream convert;
 				convert << tempGram;
 				ingre_temp_mengde.push_back(convert.str());
 
+				// oppdaterer totalverdier
 				totalProtein = ((double)totalProtein + (double)matvaretabell[i].protein);
 				totalFett = ((double)totalFett + (double)matvaretabell[i].fett);
 				totalVitaA = ((double)totalVitaA + (double)matvaretabell[i].vitaA);
@@ -152,6 +155,16 @@ void lagOppskrift()
 			}
 			utfil.close();
 			cout << "Oppskriften \"" << oppskriftNavn << "\" er lagret." << endl; 
+
+			// teller antall oppskrifter i kokeboken
+			ifstream inFile(book.c_str()); 
+			int oppskrift_antall = count(istreambuf_iterator<char>(inFile), istreambuf_iterator<char>(), '\n');
+
+			// legge inn i kokeboken
+			utfil.open(book.c_str(), ios::app);
+			utfil << oppskrift_antall+1 << ";" << oppskriftNavn << ";" << endl;
+			utfil.close();
+
 		}
 	}
 }
