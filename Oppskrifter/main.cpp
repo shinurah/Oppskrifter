@@ -48,22 +48,24 @@ void MenyValg()
 // lag oppskrift
 void lagOppskrift()
 {
-	bool MakeOppskrift = true;		// Setter oppskrift whileloop aktiv
-	string oppskriftNavn = "";		// string for oppskrift navn
-	double tempVareID = 0;			// temp for matvareID
-	double tempGram = 0;			// temp for gram
-	double totalGram = 0;			// total gram i oppskrift
-	double totalProtein = 0;		// total protein i oppskrift
-	double totalFett = 0;			// total fett i oppskift
-	double totalVitaA = 0;
-	double totalVitaC = 0;
-	double totalVitaD = 0;
-	double totalVitaE = 0;
-	double totalVann = 0;
-	double totalkilojoule = 0;
-	double totalkolesterol = 0;
-	double totalkarbohydrat = 0;
-	double totalkostfiber = 0;
+	bool MakeOppskrift = true;			// Setter oppskrift whileloop aktiv
+	string oppskriftNavn = "";			// string for oppskrift navn
+	double tempVareID = 0;				// temp for matvareID
+	double tempGram = 0;				// temp for gram
+	double totalGram = 0;				// total gram i oppskrift
+	double totalProtein = 0;			// total protein i oppskrift
+	double totalFett = 0;				// total fett i oppskift
+	double totalVitaA = 0;				// total Vitamin A
+	double totalVitaC = 0;				// total Vitamin C
+	double totalVitaD = 0;				// total Vitamin D
+	double totalVitaE = 0;				// total Vitamin E
+	double totalVann = 0;				// total Vann
+	double totalkilojoule = 0;			// total Kilojoule
+	double totalkolesterol = 0;			// total kolesterol
+	double totalkarbohydrat = 0;		// total karbohydrat
+	double totalkostfiber = 0;			// total kostfiber
+	vector <string> ingre_temp_navn;	// temp vector for ingrediense navn
+	vector <string> ingre_temp_mengde;  // temp vector for ingredisense mengde
 
 	string flere_ing;	// String for å sjekke om brukeren ønsker flere ingredisenser i oppskiften
 
@@ -83,7 +85,7 @@ void lagOppskrift()
 		// brukerinput
 		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
 		cin >> tempVareID;
-		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( svar i gram )" << endl;
+		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? (antall)" << endl;
 		cin >> tempGram;
 
 		// finner matvare og legger til data i variabler
@@ -91,6 +93,13 @@ void lagOppskrift()
 		{
 			if(matvaretabell[i].id == tempVareID)
 			{
+				ingre_temp_navn.push_back(matvaretabell[i].navn);
+								
+				stringstream convert;
+				convert << tempGram;
+				ingre_temp_mengde.push_back(convert.str());
+
+
 				totalProtein = ((double)totalProtein + (double)matvaretabell[i].protein);
 				totalFett = ((double)totalFett + (double)matvaretabell[i].fett);
 				totalVitaA = ((double)totalVitaA + (double)matvaretabell[i].vitaA);
@@ -117,7 +126,9 @@ void lagOppskrift()
 		cout << "Total Vitamin D i oppskrift: " << totalVitaD << endl;
 		cout << "Total Vitamin E i oppskrift: " << totalVitaE << endl;
 		cout << "Total Vitamin C i oppskrift: " << totalVitaC << endl;
-		
+		cout << ingre_temp_navn.size() << endl;
+		cout << ingre_temp_mengde.size() << endl;
+
 		// spør bruker om det er ønskelig med flere matvarer i oppskriften
 		cout << (char)157 << "nsker du " << (char)134 << " legge til flere ingredienser? (y/n)" << endl;
 		cin >> flere_ing;
@@ -125,8 +136,25 @@ void lagOppskrift()
 		// setter MakeOppskrift til false om brukeren ikke ønsker flere matvarer i oppskriften
 		if (flere_ing == "n")
 		{
-			MakeOppskrift = false;	
+			MakeOppskrift = false;
+	
+			// lagrer oppskriften i mappen oppskrifter
+			string lagringsfil = "oppskrifter\\" + oppskriftNavn + ".oppskrift";
+			ofstream utfil;	
+			utfil.open(lagringsfil.c_str(), ios::out);
+			utfil << oppskriftNavn << endl;
+			utfil << "-------------------------------------------" << endl;
+			utfil << "\tMatvare\t\tMengde" << endl;
+			utfil << "-------------------------------------------" << endl;
+			
+			for(int i=0; i < ingre_temp_navn.size(); i++)
+			{
+				utfil << ingre_temp_navn[i] << "\t" << ingre_temp_mengde[i] << endl;
+			}
+			utfil.close();
 		}
+
+
 	}
 }
 
