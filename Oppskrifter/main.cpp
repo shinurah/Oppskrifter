@@ -4,19 +4,7 @@ using namespace std;
 
 string Hodelinje1, Hodelinje2;
 const string mvTabell = "matvaretabellen.csv";
-string id;
-string navn;
-string vann;
-string kilojoule;
-string fett;
-string kolesterol;
-string karbohydrat;
-string kostfiber;
-string protein;
-string vitaminA;
-string vitaminD;
-string vitaminE;
-string vitaminC;
+
 
 void main()
 {
@@ -34,13 +22,14 @@ void main()
 	{
 
 	
-	//	//innfil >> antall_redusertPris >> antall_fullPris >> antall_billett;
+		// hopper over de 2 øverste linjene i filen.
 		getline ( innfil, Hodelinje1, '\n' );
 		getline ( innfil, Hodelinje2, '\n' );
 		
+		// så lenge filen ikke har tatt slutt så kjøres dette.
 		while (!innfil.eof()) 
 		{
-			
+			// henter ut informasjon fra filen og lagrer inn i et objekt.
 			getline ( innfil, mv.id, ';');
 			getline ( innfil, mv.navn, ';');
 			getline ( innfil, mv.vann, ';');
@@ -60,9 +49,6 @@ void main()
 	}
 	innfil.close();
 
-	cout << "Antall: " << matvaretabell.size() << endl;
-	cout << matvaretabell[0].id << " " << matvaretabell[0].navn << " " << matvaretabell[0].vann << " " << matvaretabell[0].kilojoule << " " << matvaretabell[0].fett << " " << matvaretabell[0].kolesterol << " " << matvaretabell[0].karbohydrat << " " << matvaretabell[0].kostfiber << " " << matvaretabell[0].protein << " " << matvaretabell[0].vitaA << " " << matvaretabell[0].vitaD << " " << matvaretabell[0].vitaE << " " << matvaretabell[0].vitaC << endl;
-	cout << matvaretabell[1].id << " " << matvaretabell[1].navn << endl;
-
+	// kjører meny system
 	Meny();
 }

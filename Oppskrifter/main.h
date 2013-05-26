@@ -3,5 +3,4 @@
 #include <string>
 #include <vector>
 #include "meny.h"
-#include "tabell.h"
 #include "mv.h"
