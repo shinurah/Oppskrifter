@@ -151,12 +151,10 @@ void lagOppskrift()
 			utfil.open(lagringsfil.c_str(), ios::out);
 			utfil << oppskriftNavn << endl;
 			utfil << "-------------------------------------------" << endl;
-			utfil << "\tMatvare\t\tMengde" << endl;
-			utfil << "-------------------------------------------" << endl;
-			
+						
 			for(int i=0; i < ingre_temp_navn.size(); i++)
 			{
-				utfil << ingre_temp_navn[i] << "\t" << ingre_temp_mengde[i] << endl;
+				utfil << ingre_temp_mengde[i] << " gram av " << ingre_temp_navn[i] << endl;
 			}
 			utfil.close();
 			cout << "Oppskriften \"" << oppskriftNavn << "\" er lagret." << endl; 
@@ -165,7 +163,7 @@ void lagOppskrift()
 			utfil.open(book.c_str(), ios::app);
 			utfil << "\n" << oppskrift_antall << ";" << oppskriftNavn << ";" << totalProtein << ";" << totalFett << ";" 
 				<< totalVitaA << ";" << totalVitaC << ";" << totalVitaD << ";" << totalVitaE << ";" << totalkilojoule 
-				<< ";" << totalkolesterol << ";" << totalkarbohydrat << ";" << totalkostfiber;
+				<< ";" << totalkolesterol << ";" << totalkarbohydrat << ";" << totalkostfiber << ";" << totalVann;
 			utfil.close();
 
 			// legger til oppskrift først i oppskrift objekt med all data, så inn i oppskrift vectoren.
@@ -183,6 +181,7 @@ void lagOppskrift()
 			oppskrift.TotalKolesterol = totalkolesterol;
 			oppskrift.TotalKarbohydrat = totalkarbohydrat;
 			oppskrift.TotalKostfiber = totalkostfiber;
+			oppskrift.TotalVann = totalVann;
 
 			oppskrifter.push_back(oppskrift);
 		
@@ -239,6 +238,19 @@ void visOppskrift()
 			}
 			innfil.close();
 			cout << innehold;
+			
+			// printer ut informasjon fra oppskriften.
+			cout << "Total Vann i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVann << endl;
+			cout << "Total Fett i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalFett << endl;
+			cout << "Total Kilojoule i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalKilojoule << endl;
+			cout << "Total Kolesterol i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalKolesterol << endl;
+			cout << "Total Karbohydrat i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalKarbohydrat << endl;
+			cout << "Total Kostfiber i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalKostfiber << endl;
+			cout << "Total Protein i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalProtein << endl;
+			cout << "Total Vitamin A i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVitaA << endl;
+			cout << "Total Vitamin D i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVitaD << endl;
+			cout << "Total Vitamin E i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVitaE << endl;
+			cout << "Total Vitamin C i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVitaC << endl;			
 		}
 	}
 }
@@ -537,9 +549,14 @@ void open()
 			oppskrift.TotalKarbohydrat = temp2;
 
 			// henger og konverterer TotalKostfiber fra oppskrift.
-			getline ( innfil, temp);
+			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalKostfiber = temp2;
+
+			// henger og konverterer TotalVann fra oppskrift.
+			getline ( innfil, temp);
+			temp2 = atof(temp.c_str());
+			oppskrift.TotalVann = temp2;
 			
 			// legger inn i oppskrift vector
 			oppskrifter.push_back(oppskrift);
