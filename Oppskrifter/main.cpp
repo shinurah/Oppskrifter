@@ -29,7 +29,9 @@ string temp;										// input string for konvertering fra String CSV
 double temp2;										// output double etter konvertering fra string CSV
 
 
-// Meny print
+/*
+*	funsjonen MenyValg() printer ut hovedmenyens valg
+*/
 void MenyValg()
 {
 		cout << endl;
@@ -41,9 +43,12 @@ void MenyValg()
 		cout << "3. \tVis Oppskrift" << endl;
 		cout << "0. \tAvslutt" << endl;
 		cout << "-------------------------------------------" << endl;		
-};
+} // slutt på MenyValg()
 
-// lag oppskrift
+/*
+*	Funsjon som spør brukeren etter hva oppskrift skal hete, hvordan ingredienser den skal ha og hvordan mengde av ingrediensene.
+*	Her blir det også lagret oppskriften i en egen fil, samt lagret inn i kokebok filen og kjørt inn i oppskrift vektoren. 
+*/
 void lagOppskrift()
 {
 	bool MakeOppskrift = true;			// Setter oppskrift whileloop aktiv
@@ -79,8 +84,8 @@ void lagOppskrift()
 	// while loop for ingredienser
 	while(MakeOppskrift)
 	{
-
 		// brukerinput
+		// validerer at riktig type input blir gjort med matvareID
 		while (true) 
 		{
 			cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
@@ -93,6 +98,7 @@ void lagOppskrift()
 			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
 		}
 
+		// validerer at riktig type input blir gjort i mengde
 		while (true) 
 		{
 			cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( i gram )" << endl;
@@ -108,9 +114,9 @@ void lagOppskrift()
 		
 
 		// finner matvare og legger til data i variabler
-		for(int i=0; i < matvaretabell.size(); i++)
+		for(unsigned int i=0; i < matvaretabell.size(); i++)
 		{
-			if(matvaretabell[i].id == tempVareID)
+			if(matvaretabell[i].id == tempVareID) // om matvareID stemmer med input
 			{
 				// setter navnet til matvaren inn i ett temp vector som holder navn
 				ingre_temp_navn.push_back(matvaretabell[i].navn);
@@ -132,6 +138,10 @@ void lagOppskrift()
 				totalkolesterol = ((double)totalkolesterol + (((double)matvaretabell[i].kilojoule/100) * tempGram));
 				totalkarbohydrat = ((double)totalkarbohydrat + (((double)matvaretabell[i].karbohydrat/100) * tempGram));
 				totalkostfiber = ((double)totalkostfiber + (((double)matvaretabell[i].kostfiber/100) * tempGram));
+			}
+			else 
+			{
+				cout << "Ugyldig matvareID" << endl;
 			}
 		}
 
@@ -172,11 +182,13 @@ void lagOppskrift()
 			utfil << oppskriftNavn << endl;
 			utfil << "-------------------------------------------" << endl;
 						
-			for(int i=0; i < ingre_temp_navn.size(); i++)
+			// setter alle ingrediensene inn i oppskriftfilen
+			for(unsigned int i=0; i < ingre_temp_navn.size(); i++)
 			{
 				utfil << ingre_temp_mengde[i] << " gram av " << ingre_temp_navn[i] << endl;
 			}
 			utfil.close();
+
 			cout << "Oppskriften \"" << oppskriftNavn << "\" er lagret." << endl; 
 
 			// legge inn i kokeboken
@@ -203,13 +215,16 @@ void lagOppskrift()
 			oppskrift.TotalKostfiber = totalkostfiber;
 			oppskrift.TotalVann = totalVann;
 
-			oppskrifter.push_back(oppskrift);
+			oppskrifter.push_back(oppskrift); // pusher oppskrift objektet inn i oppskrift vectoren
 		
 		}
 	}
-}
+}// slutt på makeOppskrift()
 
-// vis oppskrift
+/*
+*	Funsjon som viser oppskrifter i oppskrift vectoren og printer disse ut på skjermen slik at brukeren kan velge hvordan oppskrift
+*	brukeren ønsker å se på.
+*/
 void visOppskrift()
 {
 	cout << endl;
@@ -217,7 +232,7 @@ void visOppskrift()
 	cout << "Antall: " << oppskrifter.size() << endl;
 	cout << "-------------------------------------------" << endl;
 	
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		cout << oppskrifter[i].id << "\t - " << oppskrifter[i].navn << endl;
 	}
@@ -234,6 +249,7 @@ void visOppskrift()
 		int valgtOppskrift;
 		string input = "";
 		
+		// validerer at riktig type input blir gjort
 		while (true) 
 		{
 			cout << "Hvilken oppskrift vil du se?" << endl;
@@ -285,9 +301,11 @@ void visOppskrift()
 			cout << "Total Vitamin C i oppskrift: " << oppskrifter[valgtOppskrift-1].TotalVitaC << endl;			
 		}
 	}
-}
+}// slutt på visOppskrift()
 
-// valg 1 i søk - Retter med mer enn x (bestemmes av bruker) g protein, fett eller karbohydrater per 100g ferdig rett.
+/*
+* valg 1 i søk - Retter med mer enn x (bestemmes av bruker) g protein, fett eller karbohydrater per 100g ferdig rett.
+*/
 void sok1()
 {
 	string input = "";
@@ -298,7 +316,8 @@ void sok1()
 	cout << "1.\tProtein" << endl;
 	cout << "2.\tFett" << endl;
 	cout << "3.\tKarbohydrater" << endl;
-	
+
+	// validerer at riktig type input blir gjort på type
 	while (true) 
 		{
 			cout << "Velg type:" << endl;
@@ -311,6 +330,7 @@ void sok1()
 			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
 		}
 
+	// validerer at riktig type input blir gjort på mengde
 	while (true) 
 		{
 			cout << "Hvor mange gram?" << endl;
@@ -328,7 +348,7 @@ void sok1()
 	if(type == 1)
 	{
 		cout << endl;
-		for(int i=0; i < oppskrifter.size(); i++)
+		for(unsigned int i=0; i < oppskrifter.size(); i++)
 		{
 			if(oppskrifter[i].TotalProtein > x )
 			{
@@ -341,7 +361,7 @@ void sok1()
 	if(type == 2)
 	{
 		cout << endl;
-		for(int i=0; i < oppskrifter.size(); i++)
+		for(unsigned int i=0; i < oppskrifter.size(); i++)
 		{
 			if(oppskrifter[i].TotalFett > x )
 			{
@@ -354,7 +374,7 @@ void sok1()
 	if(type == 3)
 	{
 		cout << endl;
-		for(int i=0; i < oppskrifter.size(); i++)
+		for(unsigned int i=0; i < oppskrifter.size(); i++)
 		{
 			if(oppskrifter[i].TotalKarbohydrat > x )
 			{
@@ -369,15 +389,18 @@ void sok1()
     cout << endl;
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
-}
+} // slutt på sok1()
 
-// søk valg 2 - Retter med mer enn x kalorier per 100g ferdig rett
+/*
+* søk valg 2 - Retter med mer enn x kalorier per 100g ferdig rett
+*/
 void sok2()
 {
 	cout << endl;
 	double x;
 	string input ="";
 	
+	// validerer at riktig type input blir gjort
 	while (true) 
 	{
 		cout << "Hvor mange kalorier?" << endl;
@@ -392,7 +415,7 @@ void sok2()
 
 	int antallTreff = 0;
 
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		if(((oppskrifter[i].TotalKilojoule*1000)/4.184) > x )
 		{
@@ -404,14 +427,16 @@ void sok2()
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
 
-}
+} // slutt på sok2()
 
-// søk valg 3 - Retter med mye D-vitamin (i forhold til daglig anbefalt inntak) som er 7.5.
+/*
+* søk valg 3 - Retter med mye D-vitamin (i forhold til daglig anbefalt inntak) som er 7.5.
+*/
 void sok3()
 {
 	cout << endl;
 	int antallTreff = 0;
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		if(oppskrifter[i].TotalVitaD > 7.5 )
 		{
@@ -422,14 +447,16 @@ void sok3()
 	cout << endl;
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
-}
+} // slutt på sok3()
 
-// søk valg 4 - Retter med mye E-vitamin (i forhold til daglig anbefalt inntak) som er 10.
+/*
+*søk valg 4 - Retter med mye E-vitamin (i forhold til daglig anbefalt inntak) som er 10.
+*/
 void sok4()
 {
 	cout << endl;
 	int antallTreff = 0;
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		if(oppskrifter[i].TotalVitaE > 10 )
 		{
@@ -440,14 +467,16 @@ void sok4()
 	cout << endl;
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
-}
+} // slutt på sok4()
 
-// søk valg 5 - Retter med mye A-vitamin (i forhold til daglig anbefalt inntak) som er 900.
+/*
+* søk valg 5 - Retter med mye A-vitamin (i forhold til daglig anbefalt inntak) som er 900.
+*/
 void sok5()
 {
 	cout << endl;
 	int antallTreff = 0;
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		if(oppskrifter[i].TotalVitaA > 900 )
 		{
@@ -458,14 +487,16 @@ void sok5()
 	cout << endl;
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
-}
+} // slutt på sok5()
 
-// søk valg 6 - Retter med mye C-vitamin (i forhold til daglig anbefalt inntak) som er 75.
+/*
+* søk valg 6 - Retter med mye C-vitamin (i forhold til daglig anbefalt inntak) som er 75.
+*/
 void sok6()
 {
 	cout << endl;
 	int antallTreff = 0;
-	for(int i=0; i < oppskrifter.size(); i++)
+	for(unsigned int i=0; i < oppskrifter.size(); i++)
 	{
 		if(oppskrifter[i].TotalVitaC > 75 )
 		{
@@ -476,9 +507,11 @@ void sok6()
 	cout << endl;
 	cout << "Antall treff: " << antallTreff << endl;
 	cout << endl;
-}
+} // slutt på sok6()
 
-// meny for søk oppskrift
+/*
+*	Funsjonen sokOppskrift printer ut meny for søk oppskrift og kjører rett søkemetoder
+*/
 void sokOppskrift() 
 {
 	// printer valgalternativer
@@ -498,6 +531,7 @@ void sokOppskrift()
 	int sokvalg = 0;
 	string input ="";
 	
+	// validerer at riktig type input blir gjort
 	while (true) 
 	{
 		cout << "Ditt valg: " << endl;
@@ -517,11 +551,14 @@ void sokOppskrift()
 	if(sokvalg == 4) sok4();
 	if(sokvalg == 5) sok5();
 	if(sokvalg == 6) sok6();
-	if(sokvalg == 0);
-}
+	
+}	// slutt på sokOppskrift()
 
 
-// meny 
+/*
+*	Funsjonen meny() kjører hovedmenyen for brukerinput. her kan du velge å lage oppskrift, søke i oppskrifter og vis en spesiell oppskrift
+*
+*/
 void meny() 
 {
 	valg = 0;    // setter valg til 0
@@ -579,7 +616,12 @@ void meny()
 		}	
 	}
 
-}
+} // slutt på meny()
+
+/*
+*	funsjonen open() henter inn data fra lagrede filer ved programstart og kjører disse inn i vectorer slik at programmet kan lese data
+*	og utføre nødvendig informasjon uten at data går tapt ved lukking av programmet.
+*/
 
 void open()
 {
@@ -752,10 +794,15 @@ void open()
 	}
 	innfil.close(); // lokker filen
 
-}
+}	// slutt på open()
+
+/*
+*	Funsjonen main() kjøres ved programmets start
+*	Den ber om å kjøre open() for å hente data fra filer og så kjører den meny() funsjonen.
+*/
 
 void main()
 {
 	open();		// henter ut fra filer og legger i vectorer
 	meny();		// kjører meny
-}
+}	// slutt på main()
