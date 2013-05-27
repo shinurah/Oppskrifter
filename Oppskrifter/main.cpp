@@ -84,7 +84,7 @@ void lagOppskrift()
 		// brukerinput
 		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
 		cin >> tempVareID;
-		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? (antall)" << endl;
+		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( i gram )" << endl;
 		cin >> tempGram;
 
 		// finner matvare og legger til data i variabler
@@ -101,17 +101,17 @@ void lagOppskrift()
 				ingre_temp_mengde.push_back(convert.str());
 
 				// oppdaterer totalverdier
-				totalProtein = ((double)totalProtein + ((double)matvaretabell[i].protein * tempGram));
-				totalFett = ((double)totalFett + ((double)matvaretabell[i].fett * tempGram));
-				totalVitaA = ((double)totalVitaA + ((double)matvaretabell[i].vitaA * tempGram));
-				totalVitaC = ((double)totalVitaC + ((double)matvaretabell[i].vitaC * tempGram));
-				totalVitaD = ((double)totalVitaD + ((double)matvaretabell[i].vitaD * tempGram));
-				totalVitaE = ((double)totalVitaE + ((double)matvaretabell[i].vitaE * tempGram));
-				totalVann = ((double)totalVann + ((double)matvaretabell[i].vann * tempGram));
-				totalkilojoule = ((double)totalkilojoule + ((double)matvaretabell[i].kilojoule * tempGram));
-				totalkolesterol = ((double)totalkolesterol + ((double)matvaretabell[i].kilojoule * tempGram));
-				totalkarbohydrat = ((double)totalkarbohydrat + ((double)matvaretabell[i].karbohydrat * tempGram));
-				totalkostfiber = ((double)totalkostfiber + ((double)matvaretabell[i].kostfiber * tempGram));
+				totalProtein = ((double)totalProtein + (((double)matvaretabell[i].protein/100) * tempGram));
+				totalFett = ((double)totalFett + (((double)matvaretabell[i].fett/100) * tempGram));
+				totalVitaA = ((double)totalVitaA + (((double)matvaretabell[i].vitaA/100) * tempGram));
+				totalVitaC = ((double)totalVitaC + (((double)matvaretabell[i].vitaC/100) * tempGram));
+				totalVitaD = ((double)totalVitaD + (((double)matvaretabell[i].vitaD/100) * tempGram));
+				totalVitaE = ((double)totalVitaE + (((double)matvaretabell[i].vitaE/100) * tempGram));
+				totalVann = ((double)totalVann + (((double)matvaretabell[i].vann/100) * tempGram));
+				totalkilojoule = ((double)totalkilojoule + (((double)matvaretabell[i].kilojoule/100) * tempGram));
+				totalkolesterol = ((double)totalkolesterol + (((double)matvaretabell[i].kilojoule/100) * tempGram));
+				totalkarbohydrat = ((double)totalkarbohydrat + (((double)matvaretabell[i].karbohydrat/100) * tempGram));
+				totalkostfiber = ((double)totalkostfiber + (((double)matvaretabell[i].kostfiber/100) * tempGram));
 			}
 		}
 
@@ -168,7 +168,7 @@ void lagOppskrift()
 				<< ";" << totalkolesterol << ";" << totalkarbohydrat << ";" << totalkostfiber;
 			utfil.close();
 
-			// legger til oppskrift i vector
+			// legger til oppskrift først i oppskrift objekt med all data, så inn i oppskrift vectoren.
 			oppskrift oppskrift;
 
 			oppskrift.id = oppskrift_antall;
@@ -190,17 +190,21 @@ void lagOppskrift()
 	}
 }
 
+// vis oppskrift
 void visOppskrift()
 {
 	cout << endl;
 	cout << "Oppskrifter fra kokebok" << endl;
 	cout << "Antall: " << oppskrifter.size() << endl;
 	cout << "-------------------------------------------" << endl;
+	
 	for(int i=0; i < oppskrifter.size(); i++)
 	{
 		cout << oppskrifter[i].id << "\t - " << oppskrifter[i].navn << endl;
 	}
+
 	cout << "-------------------------------------------" << endl;
+	
 	if(oppskrifter.size() == 0)
 	{
 		cout << "Du har ingen oppskrifter i din kokebok" << endl;
@@ -210,13 +214,16 @@ void visOppskrift()
 		cout << "Hvilken oppskrift vil du se?" << endl;
 		int valgtOppskrift = 0;
 		cin >> valgtOppskrift;
-
-
+		
+		// konverterer fra double til string
 		stringstream convert;
-		convert << valgtOppskrift;			
+		convert << valgtOppskrift;
+
+		// genererer filnavn til oppskrift
 		string filNavn = "oppskrifter\\" + convert.str() + ".oppskrift";
 		innfil.open(filNavn.c_str(), ios::in);
-		if (innfil.fail())
+
+		if (innfil.fail()) // om filen ikke eksisterer
 		{
 			cout << "Det oppsto en feil ved " << (char)134 << "pning av fila " << filNavn << endl;
 			cout << "eller filen finnes ikke." << endl;
@@ -224,7 +231,7 @@ void visOppskrift()
 		else 
 		{
 			cout << "Leser filen " << filNavn << endl;
-			string innehold = "\n";
+			string innehold = "\n"; // lagrer innehold i filen til en string.
 			while (!innfil.eof()) 
 			{	
 				getline ( innfil, temp, '\n');
@@ -234,15 +241,197 @@ void visOppskrift()
 			cout << innehold;
 		}
 	}
+}
 
+// valg 1 i søk - Retter med mer enn x (bestemmes av bruker) g protein, fett eller karbohydrater per 100g ferdig rett.
+void sok1()
+{
+	int type = 0;
+	double x = 0;
+	cout << endl;
+	cout << "--------------------------" << endl;
+	cout << "1.\tProtein" << endl;
+	cout << "2.\tFett" << endl;
+	cout << "3.\tKarbohydrater" << endl;
+	cout << "Velg type:" << endl;
+	cin >> type;
+	cout << "Hvor mange gram?" << endl;
+	cin >> x;
+	int antallTreff = 0;
+
+	if(type == 1)
+	{
+		cout << endl;
+		for(int i=0; i < oppskrifter.size(); i++)
+		{
+			if(oppskrifter[i].TotalProtein > x )
+			{
+				antallTreff++;
+				cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+			}
+		}
+	}
+	
+	if(type == 2)
+	{
+		cout << endl;
+		for(int i=0; i < oppskrifter.size(); i++)
+		{
+			if(oppskrifter[i].TotalFett > x )
+			{
+				antallTreff++;
+				cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+			}
+		}
+	}
+	
+	if(type == 3)
+	{
+		cout << endl;
+		for(int i=0; i < oppskrifter.size(); i++)
+		{
+			if(oppskrifter[i].TotalKarbohydrat > x )
+			{
+				antallTreff++;
+				cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+			}
+		}
+	}
+	if(type == 0)
+
+
+    cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+}
+
+// søk valg 2 - Retter med mer enn x kalorier per 100g ferdig rett
+void sok2()
+{
+	cout << endl;
+	double x;
+	cout << "Hvor mange kalorier?" << endl;
+	cin >> x;
+	int antallTreff = 0;
+
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		if(((oppskrifter[i].TotalKilojoule*1000)/4.184) > x )
+		{
+			antallTreff++;
+			cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+		}
+	}
+	cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+
+}
+
+// søk valg 3 - Retter med mye D-vitamin (i forhold til daglig anbefalt inntak) som er 7.5.
+void sok3()
+{
+	cout << endl;
+	int antallTreff = 0;
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		if(oppskrifter[i].TotalVitaD > 7.5 )
+		{
+			antallTreff++;
+			cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+		}
+	}
+	cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+}
+
+// søk valg 4 - Retter med mye E-vitamin (i forhold til daglig anbefalt inntak) som er 10.
+void sok4()
+{
+	cout << endl;
+	int antallTreff = 0;
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		if(oppskrifter[i].TotalVitaE > 10 )
+		{
+			antallTreff++;
+			cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+		}
+	}
+	cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+}
+
+// søk valg 5 - Retter med mye A-vitamin (i forhold til daglig anbefalt inntak) som er 900.
+void sok5()
+{
+	cout << endl;
+	int antallTreff = 0;
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		if(oppskrifter[i].TotalVitaA > 900 )
+		{
+			antallTreff++;
+			cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+		}
+	}
+	cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+}
+
+// søk valg 6 - Retter med mye C-vitamin (i forhold til daglig anbefalt inntak) som er 75.
+void sok6()
+{
+	cout << endl;
+	int antallTreff = 0;
+	for(int i=0; i < oppskrifter.size(); i++)
+	{
+		if(oppskrifter[i].TotalVitaC > 75 )
+		{
+			antallTreff++;
+			cout << oppskrifter[i].id << " - " << oppskrifter[i].navn << endl; 
+		}
+	}
+	cout << endl;
+	cout << "Antall treff: " << antallTreff << endl;
+	cout << endl;
+}
+
+// meny for søk oppskrift
+void sokOppskrift() 
+{
+	// printer valgalternativer
+	cout << endl;
+	cout << "S"<< (char)155 << "k" << endl;
+	cout << "-------------------------------------------" << endl;
+	cout << "1. \tRetter med mer enn x g protein, fett"<< endl;
+	cout << "\teller karbohydrater per 100g ferdig rett. " << endl;
+	cout << "2. \tRetter med mer enn x kalorier per 100g ferdig rett" << endl;
+	cout << "3. \tRetter med mye D-vitamin (i forhold til daglig anbefalt inntak)" << endl;
+	cout << "4. \tRetter med mye E-vitamin (i forhold til daglig anbefalt inntak)" << endl;
+	cout << "5. \tRetter med mye A-vitamin (i forhold til daglig anbefalt inntak)" << endl;
+	cout << "6. \tRetter med mye C-vitamin (i forhold til daglig anbefalt inntak)" << endl;
+	cout << "0. \tAvslutt" << endl;
+	cout << "-------------------------------------------" << endl;
+	cout << "Ditt valg: ";
+	int sokvalg = 0;
+	cin >> sokvalg; // spør bruker etter valg
+
+	// kjører funsjon alt etter valg.
+	if(sokvalg == 1) sok1();
+    if(sokvalg == 2) sok2();
+	if(sokvalg == 3) sok3();
+	if(sokvalg == 4) sok4();
+	if(sokvalg == 5) sok5();
+	if(sokvalg == 6) sok6();
+	if(sokvalg == 0);
 }
 
 
 // meny 
-
-// NB NB NB NB NB
-// bør oppdateres med sikkert input..
-
 void meny() 
 {
 	valg = 0;    // setter valg til 0
@@ -261,7 +450,7 @@ void meny()
                 break;
             case 2:
                 cout << "Du valgte '2. S" << (char)155 << "k etter oppskrift'" << endl;
-                
+                sokOppskrift();
                 break;
             case 3:
                 cout << "Du valgte '3. Vis Oppskrift'" << endl;
@@ -286,7 +475,7 @@ void open()
 	oppskrift oppskrift;	// oppskrift objekt
 
 	innfil.open(book.c_str(), ios::in);
-	if (innfil.fail())
+	if (innfil.fail()) // printer ut om filen ikke finnes.
 	{
 		cout << "Det oppsto en feil ved " << (char)134 << "pning av fila, kontroller at fila \"kokebok.book\" eksisterer!" << endl;
 	}
@@ -299,48 +488,60 @@ void open()
 			temp2 = atof(temp.c_str());
 			oppskrift.id = temp2;
 
+			// henger navn på oppskrift.
 			getline ( innfil, oppskrift.navn, ';');
 
+			// henger og konverterer TotalProtein fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalProtein = temp2;
 
+			// henger og konverterer TotalFett fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalFett = temp2;
 
+			// henger og konverterer TotalVitaA fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalVitaA = temp2;
 
+			// henger og konverterer TotalVitaC fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalVitaC = temp2;
 
+			// henger og konverterer TotalVitaD fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalVitaD = temp2;
 
+			// henger og konverterer TotalVitaE fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalVitaE = temp2;
 
+			// henger og konverterer TotalKilojoule fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalKilojoule = temp2;
 
+			// henger og konverterer TotalKolesterol fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalKolesterol = temp2;
 
+			// henger og konverterer Totalkarbohydrat fra oppskrift.
 			getline ( innfil, temp, ';');
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalKarbohydrat = temp2;
 
+			// henger og konverterer TotalKostfiber fra oppskrift.
 			getline ( innfil, temp);
 			temp2 = atof(temp.c_str());
 			oppskrift.TotalKostfiber = temp2;
 			
+			// legger inn i oppskrift vector
 			oppskrifter.push_back(oppskrift);
 			
 		}
@@ -434,15 +635,10 @@ void open()
 	}
 	innfil.close(); // lokker filen
 
-
 }
-
-
 
 void main()
 {
-	open();
-
-	// kjører meny system
-	meny();
+	open();		// henter ut fra filer og legger i vectorer
+	meny();		// kjører meny
 }
