@@ -40,8 +40,7 @@ void MenyValg()
 		cout << "2. \tS" << (char)155 << "k etter oppskrift" << endl;
 		cout << "3. \tVis Oppskrift" << endl;
 		cout << "0. \tAvslutt" << endl;
-		cout << "-------------------------------------------" << endl;
-		cout << "Ditt valg: ";		
+		cout << "-------------------------------------------" << endl;		
 };
 
 // lag oppskrift
@@ -82,10 +81,31 @@ void lagOppskrift()
 	{
 
 		// brukerinput
-		cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
-		cin >> tempVareID;
-		cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( i gram )" << endl;
-		cin >> tempGram;
+		while (true) 
+		{
+			cout << "Hvordan vare "<< (char)155 << "nsker du " << (char)134 << " bruke i \""<< oppskriftNavn << "\" ? ( svar med matvareID )" << endl;
+			getline(cin, input);
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> tempVareID)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}
+
+		while (true) 
+		{
+			cout << "Hvor mye "<< (char)155 << "nsker du " << (char)134 << " bruke? ( i gram )" << endl;
+			getline(cin, input);
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> tempGram)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}
+		
+		
 
 		// finner matvare og legger til data i variabler
 		for(int i=0; i < matvaretabell.size(); i++)
@@ -210,10 +230,22 @@ void visOppskrift()
 	}
 	else
 	{
-		cout << "Hvilken oppskrift vil du se?" << endl;
-		int valgtOppskrift = 0;
-		cin >> valgtOppskrift;
 		
+		int valgtOppskrift;
+		string input = "";
+		
+		while (true) 
+		{
+			cout << "Hvilken oppskrift vil du se?" << endl;
+			cin >> input;
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> valgtOppskrift)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}
+
 		// konverterer fra double til string
 		stringstream convert;
 		convert << valgtOppskrift;
@@ -258,6 +290,7 @@ void visOppskrift()
 // valg 1 i søk - Retter med mer enn x (bestemmes av bruker) g protein, fett eller karbohydrater per 100g ferdig rett.
 void sok1()
 {
+	string input = "";
 	int type = 0;
 	double x = 0;
 	cout << endl;
@@ -265,10 +298,31 @@ void sok1()
 	cout << "1.\tProtein" << endl;
 	cout << "2.\tFett" << endl;
 	cout << "3.\tKarbohydrater" << endl;
-	cout << "Velg type:" << endl;
-	cin >> type;
-	cout << "Hvor mange gram?" << endl;
-	cin >> x;
+	
+	while (true) 
+		{
+			cout << "Velg type:" << endl;
+			cin >> input;
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> type)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}
+
+	while (true) 
+		{
+			cout << "Hvor mange gram?" << endl;
+			cin >> input;
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> x)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}
+	
 	int antallTreff = 0;
 
 	if(type == 1)
@@ -322,8 +376,20 @@ void sok2()
 {
 	cout << endl;
 	double x;
-	cout << "Hvor mange kalorier?" << endl;
-	cin >> x;
+	string input ="";
+	
+	while (true) 
+	{
+		cout << "Hvor mange kalorier?" << endl;
+		cin >> input;
+
+		// This code converts from string to number safely.
+		stringstream myStream(input);
+		if (myStream >> x)
+			break;
+		cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+	}
+
 	int antallTreff = 0;
 
 	for(int i=0; i < oppskrifter.size(); i++)
@@ -428,10 +494,22 @@ void sokOppskrift()
 	cout << "6. \tRetter med mye C-vitamin (i forhold til daglig anbefalt inntak)" << endl;
 	cout << "0. \tAvslutt" << endl;
 	cout << "-------------------------------------------" << endl;
-	cout << "Ditt valg: ";
+	
 	int sokvalg = 0;
-	cin >> sokvalg; // spør bruker etter valg
+	string input ="";
+	
+	while (true) 
+	{
+		cout << "Ditt valg: " << endl;
+		cin >> input;
 
+		// This code converts from string to number safely.
+		stringstream myStream(input);
+		if (myStream >> sokvalg)
+			break;
+		cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+	}
+	
 	// kjører funsjon alt etter valg.
 	if(sokvalg == 1) sok1();
     if(sokvalg == 2) sok2();
@@ -449,8 +527,19 @@ void meny()
 	valg = 0;    // setter valg til 0
     
 	MenyValg();  // printer meny valg
-	cin >> valg; // spør bruker etter valg
+	string input ="";
+	
+	while (true) 
+	{
+		cout << "Ditt valg: " << endl;
+		cin >> input;
 
+		// This code converts from string to number safely.
+		stringstream myStream(input);
+		if (myStream >> valg)
+			break;
+		cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+	}
 	while (valg != 0)
 	{
 		switch (valg)
@@ -476,7 +565,18 @@ void meny()
 		
 		valg = 0;
 		MenyValg();
-		cin >> valg;	
+		
+		while (true) 
+		{
+			cout << "Ditt valg: " << endl;
+			cin >> input;
+
+			// This code converts from string to number safely.
+			stringstream myStream(input);
+			if (myStream >> valg)
+				break;
+			cout << "Ugyldig nummer, pr"<< (char)155 << "v igjen" << endl;
+		}	
 	}
 
 }
